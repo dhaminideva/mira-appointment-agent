@@ -1,0 +1,128 @@
+{
+  "name": "MIRA - Lookup Patient",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lookup-patient",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-lookup",
+      "name": "Webhook - Lookup Patient",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "lookup-patient"
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "mode": "id",
+          "value": "={{ $env.GOOGLE_SHEET_ID }}"
+        },
+        "sheetName": {
+          "mode": "name",
+          "value": "Patients"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "phone",
+              "lookupValue": "={{ $json.body.phone }}"
+            }
+          ]
+        },
+        "options": {
+          "returnAllMatches": false
+        }
+      },
+      "id": "sheets-lookup",
+      "name": "Google Sheets - Find Patient",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google-sheets-cred",
+          "name": "Google Sheets OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.phone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "isNotEmpty"
+              }
+            }
+          ]
+        }
+      },
+      "id": "if-found",
+      "name": "Record Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ found: true, patient_id: $json.patient_id, phone: $json.phone, first_name: $json.first_name, last_name: $json.last_name, date_of_birth: $json.date_of_birth, appointment_date: $json.appointment_date, appointment_time: $json.appointment_time, doctor_name: $json.doctor_name, department: $json.department, appointment_status: $json.appointment_status, email: $json.email }) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "respond-found",
+      "name": "Respond - Found",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"found\": false }",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "respond-not-found",
+      "name": "Respond - Not Found",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [900, 400]
+    }
+  ],
+  "connections": {
+    "Webhook - Lookup Patient": {
+      "main": [
+        [{"node": "Google Sheets - Find Patient", "type": "main", "index": 0}]
+      ]
+    },
+    "Google Sheets - Find Patient": {
+      "main": [
+        [{"node": "Record Found?", "type": "main", "index": 0}]
+      ]
+    },
+    "Record Found?": {
+      "main": [
+        [{"node": "Respond - Found", "type": "main", "index": 0}],
+        [{"node": "Respond - Not Found", "type": "main", "index": 0}]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

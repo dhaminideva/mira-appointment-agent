@@ -1,0 +1,70 @@
+{
+  "company": "Riverside Medical Centre",
+  "faqs": [
+    {
+      "question": "What are your clinic hours?",
+      "keywords": ["hours", "open", "opening", "close", "closing", "time", "when", "horario", "abierto"],
+      "answer": "Riverside Medical Centre is open Monday through Friday, 8:00 AM to 6:00 PM. We are closed on major public holidays. For urgent medical matters outside of hours, please call 911 or visit your nearest emergency room."
+    },
+    {
+      "question": "Where is the clinic located?",
+      "keywords": ["address", "location", "where", "directions", "find", "dirección", "ubicación", "dónde"],
+      "answer": "Riverside Medical Centre is located at 1250 Riverside Boulevard, Suite 100, Tampa, Florida 33602. We are easily accessible by public transport and have free on-site parking."
+    },
+    {
+      "question": "Is there parking available?",
+      "keywords": ["parking", "park", "car", "estacionamiento", "aparcar", "coche"],
+      "answer": "Yes, free parking is available in our main car park on Riverside Boulevard. Accessible parking spaces are located near the main entrance. Bicycle racks are also available."
+    },
+    {
+      "question": "How do I cancel or reschedule my appointment?",
+      "keywords": ["cancel", "reschedule", "change", "move", "rebook", "cancelar", "reprogramar", "cambiar"],
+      "answer": "You can cancel or reschedule your appointment by calling us at 1-800-555-0200 at least 24 hours in advance, or by visiting our patient portal at portal.riversidemedical.com. MIRA can also help you reschedule right now on this call."
+    },
+    {
+      "question": "How early should I arrive for my appointment?",
+      "keywords": ["arrive", "early", "check in", "check-in", "before", "llegar", "anticipación", "antes"],
+      "answer": "We recommend arriving 10 minutes before your scheduled appointment time to allow for check-in and any necessary paperwork. If it is your first visit, please arrive 15 minutes early."
+    },
+    {
+      "question": "What should I bring to my appointment?",
+      "keywords": ["bring", "documents", "id", "insurance", "card", "traer", "documentos", "seguro", "identificación"],
+      "answer": "Please bring a valid photo ID, your insurance card, a list of any current medications, and any referral letters if applicable. For your first visit, please also bring any relevant medical records or test results."
+    },
+    {
+      "question": "How do I prepare for my appointment?",
+      "keywords": ["prepare", "preparation", "ready", "before", "fasting", "fast", "preparar", "preparación", "ayuno"],
+      "answer": "Preparation depends on the type of appointment. For blood tests, you may need to fast for 8 to 12 hours beforehand. For other appointments, no special preparation is usually required. Your doctor's office will advise you if anything specific is needed when your appointment is booked."
+    },
+    {
+      "question": "Can I bring someone with me to my appointment?",
+      "keywords": ["bring", "someone", "family", "friend", "accompany", "traer", "acompañante", "familia"],
+      "answer": "Yes, you are welcome to bring a family member or friend to your appointment for support. Please let us know at check-in if someone will be accompanying you."
+    },
+    {
+      "question": "How do I get my test results?",
+      "keywords": ["results", "test", "lab", "blood", "scan", "resultados", "examen", "análisis"],
+      "answer": "Test results are typically available within 3 to 5 business days and will be shared with you via our patient portal at portal.riversidemedical.com. Your doctor will contact you directly if any results require urgent attention."
+    },
+    {
+      "question": "What insurance plans do you accept?",
+      "keywords": ["insurance", "plan", "cover", "accepted", "network", "seguro", "plan", "cobertura", "aceptan"],
+      "answer": "Riverside Medical Centre accepts most major insurance plans including Medicare and Medicaid. Please call us at 1-800-555-0200 or check our patient portal to confirm your specific plan is accepted before your appointment."
+    },
+    {
+      "question": "What happens if I am late?",
+      "keywords": ["late", "tardiness", "delay", "miss", "tarde", "retraso", "llegar tarde"],
+      "answer": "If you are running late, please call us as soon as possible at 1-800-555-0200. We will do our best to accommodate you, but appointments may need to be rescheduled if you arrive more than 15 minutes after your scheduled time."
+    },
+    {
+      "question": "Is there a cancellation policy?",
+      "keywords": ["cancellation", "policy", "fee", "charge", "penalty", "política", "cargo"],
+      "answer": "We ask that you provide at least 24 hours notice if you need to cancel or reschedule your appointment. This allows us to offer the slot to another patient. Repeated late cancellations may result in a scheduling fee."
+    },
+    {
+      "question": "How do I contact the clinic?",
+      "keywords": ["contact", "phone", "call", "email", "reach", "contactar", "llamar", "teléfono", "correo"],
+      "answer": "You can reach Riverside Medical Centre at 1-800-555-0200, Monday through Friday 8:00 AM to 6:00 PM. You can also send a message through our patient portal at portal.riversidemedical.com."
+    }
+  ]
+}

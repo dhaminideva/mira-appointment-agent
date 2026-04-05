@@ -1,0 +1,125 @@
+{
+  "name": "MIRA - Log Interaction",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "log-interaction",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-log",
+      "name": "Webhook - Log Interaction",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "log-interaction"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "mode": "id",
+          "value": "={{ $env.GOOGLE_SHEET_ID }}"
+        },
+        "sheetName": {
+          "mode": "name",
+          "value": "Interactions"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp":             "={{ $json.body.timestamp }}",
+            "patient_name":          "={{ $json.body.patient_name }}",
+            "phone":                 "={{ $json.body.phone }}",
+            "authenticated":         "={{ $json.body.authenticated }}",
+            "appointment_status":    "={{ $json.body.appointment_status }}",
+            "new_slot":              "={{ $json.body.new_slot }}",
+            "language":              "={{ $json.body.language }}",
+            "topics":                "={{ $json.body.topics }}",
+            "summary":               "={{ $json.body.summary }}",
+            "sentiment":             "={{ $json.body.sentiment }}",
+            "escalation_requested":  "={{ $json.body.escalation_requested }}",
+            "emergency":             "={{ $json.body.emergency }}",
+            "routing_path":          "={{ $json.body.routing_path }}",
+            "turn_count":            "={{ $json.body.turn_count }}",
+            "call_start":            "={{ $json.body.call_start }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {"id": "timestamp",            "displayName": "timestamp",            "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "patient_name",         "displayName": "patient_name",         "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "phone",                "displayName": "phone",                "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "authenticated",        "displayName": "authenticated",        "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "appointment_status",   "displayName": "appointment_status",   "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "new_slot",             "displayName": "new_slot",             "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "language",             "displayName": "language",             "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "topics",               "displayName": "topics",               "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "summary",              "displayName": "summary",              "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "sentiment",            "displayName": "sentiment",            "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "escalation_requested", "displayName": "escalation_requested", "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "emergency",            "displayName": "emergency",            "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "routing_path",         "displayName": "routing_path",         "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "turn_count",           "displayName": "turn_count",           "required": false, "defaultMatch": false, "display": true, "type": "string"},
+            {"id": "call_start",           "displayName": "call_start",           "required": false, "defaultMatch": false, "display": true, "type": "string"}
+          ]
+        },
+        "options": {}
+      },
+      "id": "sheets-append",
+      "name": "Google Sheets - Append Interaction",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google-sheets-cred",
+          "name": "Google Sheets OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"success\": true }",
+        "options": {"responseCode": 200}
+      },
+      "id": "respond-ok",
+      "name": "Respond - OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"success\": false }",
+        "options": {"responseCode": 500}
+      },
+      "id": "respond-err",
+      "name": "Respond - Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [680, 460]
+    }
+  ],
+  "connections": {
+    "Webhook - Log Interaction": {
+      "main": [
+        [{"node": "Google Sheets - Append Interaction", "type": "main", "index": 0}]
+      ]
+    },
+    "Google Sheets - Append Interaction": {
+      "main": [
+        [{"node": "Respond - OK", "type": "main", "index": 0}]
+      ],
+      "error": [
+        [{"node": "Respond - Error", "type": "main", "index": 0}]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
