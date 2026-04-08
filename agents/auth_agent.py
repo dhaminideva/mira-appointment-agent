@@ -85,8 +85,9 @@ async def auth_agent_node(state: CallState) -> dict:
             topics.append("new_patient_callback")
             updates["call_topics"] = topics
             updates["phase"] = "ended"
-            # Store callback time in routing path for the interaction log
-            updates["routing_path"] = _safe_path(state, f"callback_time:{last_human[:40]}")
+            # Store callback time in new_appointment_slot — reused as callback_time field
+            updates["new_appointment_slot"] = f"Callback requested: {last_human[:60]}"
+            updates["routing_path"] = _safe_path(state, "new_patient_callback")
             if lang == "es":
                 response = (
                     f"Perfecto. Tomaré nota de que prefiere que le llamemos {last_human}. "

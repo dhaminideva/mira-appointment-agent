@@ -102,12 +102,20 @@ def _log_to_sheets(state, patient, appt, appt_status, lang, new_slot, topics, lo
     try:
         import aiohttp, asyncio as _asyncio
         from datetime import datetime, timezone
+        # Separate callback_time from reschedule slot
+        callback_time = ""
+        clean_slot = new_slot or ""
+        if new_slot and new_slot.startswith("Callback requested:"):
+            callback_time = new_slot.replace("Callback requested:", "").strip()
+            clean_slot = ""
+
         payload = {
             "patient_name":         f"{patient.get('first_name','')} {patient.get('last_name','')}".strip() or "Unknown",
             "phone":                patient.get("phone", "unknown"),
             "authenticated":        state.get("is_authenticated", False),
             "appointment_status":   appt_status or "N/A",
-            "new_slot":             new_slot or "",
+            "new_slot":             clean_slot,
+            "callback_time":        callback_time,
             "language":             lang,
             "topics":               ", ".join(topics),
             "summary":              log_summary,
@@ -273,12 +281,24 @@ def media_stream(ws):
         new_slot    = state.get("new_appointment_slot", "")
         topics      = state.get("call_topics") or []
 
-        reschedule_note = f" Rescheduled to: {new_slot}." if new_slot else ""
-        log_summary = (
-            f"{first_name} {patient.get('last_name','')} called regarding their "
-            f"appointment with {appt.get('doctor', patient.get('doctor_name','their doctor'))}. "
-            f"Status: {appt_status or 'N/A'}.{reschedule_note}"
-        ).strip()
+        # Build meaningful summary depending on call type
+        if new_slot and new_slot.startswith("Callback requested:"):
+            log_summary = (
+                f"New patient — no account found. {new_slot}. "
+                f"Receptionist follow-up required."
+            )
+        elif new_slot:
+            log_summary = (
+                f"{first_name} {patient.get('last_name','')} called regarding their "
+                f"appointment with {appt.get('doctor', patient.get('doctor_name','their doctor'))}. "
+                f"Status: {appt_status or 'N/A'}. Rescheduled to: {new_slot}."
+            )
+        else:
+            log_summary = (
+                f"{first_name} {patient.get('last_name','')} called regarding their "
+                f"appointment with {appt.get('doctor', patient.get('doctor_name','their doctor'))}. "
+                f"Status: {appt_status or 'N/A'}."
+            ).strip()
 
         history = state.get("sentiment_history") or []
         if history:
