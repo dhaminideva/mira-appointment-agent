@@ -1,6 +1,6 @@
 # 🎙️ MIRA — Bilingual Medical Appointment Voice Assistant
 
-> **Live demo — call MIRA right now:** [`+1 (XXX) XXX-XXXX`](tel:+1XXXXXXXXXX)  
+> **Live demo — call MIRA right now:** [`+1 (855) 617-7835`](tel:+18556177835)  
 > *Real phone call. Real voice. Real integrations. Pick up and say "Hola" to switch languages.*
 
 ---
